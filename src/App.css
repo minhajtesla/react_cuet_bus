@@ -1,0 +1,111 @@
+/* app.css */
+/* ========================
+   1. ROOT VARIABLES
+   ======================== */
+   :root {
+    --bg-dark:         #0f172a;    /* page background */
+  --bg-secondary:    #1e293b;    /* containers */
+  --bg-accent:       #334155;    /* cards/panels */
+  --text-light:      #f1f5f9;    /* primary text */
+  --text-muted:      #cbd5e1;    /* secondary text */
+  --accent-blue:     #38bdf8;    /* buttons, highlights */
+  --accent-amber:    #fbbf24;    /* hover states */
+  --border-radius:   6px;
+  --transition:      0.3s ease;
+  --container-gap:   2rem;
+    /* Colors */
+    --primary-color: #0055A4;
+    --accent-color: #FFC20E;
+    --text-color: #FFFFFF;
+    --bg-frost: rgba(255,255,255,0.85);
+  
+    /* Layout */
+    --nav-height: 60px;
+    --container-max: 1200px;
+    --gutter: 1rem;
+  
+    /* Animation Defaults */
+    --anim-duration: 15s;
+    --anim-ease: ease-in-out;
+  }
+  
+  /* ========================
+     2. GLOBAL + BACKDROP
+     ======================== */
+  html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: var(--text-color);
+    background: var(--primary-color);
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)
+                no-repeat center center fixed;
+    background-size: 400% 400%;
+    animation: gradientShift var(--anim-duration) var(--anim-ease) infinite;
+  }
+  
+  @keyframes gradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* ========================
+     3. TYPOGRAPHY + UTILITIES
+     ======================== */
+  body {
+    line-height: 1.6;
+  }
+  
+  .container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+  
+  .overflow-hidden {
+    overflow: hidden;
+  }
+  
+  /* ========================
+     4. COMPONENT STYLES
+     ======================== */
+  .card {
+    background: var(--bg-frost);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .button {
+    display: inline-block;
+    background: var(--accent-color);
+    color: #333;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: transform 0.3s var(--anim-ease), box-shadow 0.3s var(--anim-ease);
+  }
+  .button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+  }
+  
+  /* ========================
+     5. ANIMATIONS + FOCUS
+     ======================== */
+  .fade-in {
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+  
+  :focus {
+    outline: 3px dashed var(--accent-color);
+    outline-offset: 4px;
+  }
+  

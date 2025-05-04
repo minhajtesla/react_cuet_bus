@@ -1,0 +1,119 @@
+/* Navbar.css */
+
+/* 1. Theme variables */
+:root {
+    --primary-color: #0055A4;
+    --accent-color: #FFC20E;
+    --text-color: #ffffff;
+    --nav-height: 60px;
+    --transition-duration: 0.3s;
+  }
+  
+  /* 2. Base navbar layout */
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--nav-height);
+    padding: 0 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+  }
+  
+  /* 3. Logo container */
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .logo-container .logo {
+    height: 40px;
+    width: auto;
+  }
+  
+  /* 4. Header text */
+  .header-text h1 {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin: 0;
+    line-height: 1.2;
+  }
+  .header-text h2 {
+    font-size: 0.75rem;
+    color: var(--text-color);
+    margin: 0;
+    line-height: 1.2;
+  }
+  
+  /* 5. Navigation links */
+  .navbar-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .navbar-links li {
+    list-style: none;
+  }
+  .navbar-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    position: relative;
+    transition: color var(--transition-duration) ease;
+  }
+  .navbar-links a:hover {
+    color: var(--accent-color);
+  }
+  /* Active link underline */
+  .navbar-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent-color);
+    border-radius: 2px;
+    transition: width var(--transition-duration) ease;
+  }
+  /* Focus state for accessibility */
+  .navbar-links a:focus {
+    outline: 2px dashed var(--accent-color);
+    outline-offset: 2px;
+  }
+  
+  /* 6. Mobile menu toggle (hidden by default) */
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: var(--text-color);
+  }
+  
+  /* 7. Responsive: collapse links & show toggle */
+  @media (max-width: 768px) {
+    .navbar-links {
+      display: none;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.9);
+      position: absolute;
+      top: var(--nav-height);
+      left: 0;
+      width: 100%;
+      padding: 1rem 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .navbar-links.show {
+      display: flex;
+    }
+    .menu-toggle {
+      display: block;
+    }
+  }
+  
