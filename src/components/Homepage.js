@@ -2,10 +2,12 @@
 // 🔄 Updated: Includes Hero carousel, Google Map with station selector, and styled UI
 import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Swiper, SwiperSlide } from 'swiper/react';
+// import { Swiper, SwiperSlide } from 'swiper/react';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 import 'swiper/css';
 import './Homepage.css';
+import Feedback from '../components/Feedback'; // Adjust path as needed
+
 
 const busStations = [
   { id: 1, name: 'CUET Main Gate', position: { lat: 22.4619433, lng: 91.9710592 }, image: '/images/stations/cuet-main.jpg' },
@@ -46,7 +48,7 @@ export default function Homepage() {
     <main className="homepage">
       {/* Hero Carousel */}
       <section className="hero">
-        <Swiper
+        {/* <Swiper
           loop
           autoplay={{ delay: 5000 }}
           pagination={{ clickable: true }}
@@ -57,7 +59,7 @@ export default function Homepage() {
               <div className="hero-slide" style={{ backgroundImage: `url(${src})` }} />
             </SwiperSlide>
           ))}
-        </Swiper>
+        </Swiper> */}
         <div className="hero-overlay" />
         <div className="hero-content fade-in">
           <h1>Welcome to CUET Transport</h1>
@@ -103,7 +105,11 @@ export default function Homepage() {
           <img src={selectedStation.image} alt={selectedStation.name} className="station-image" />
         </div>
       </section>
+          {/* feedback */}
 
+          <section className="feedback-section container fade-in">
+        <Feedback />
+      </section>
       {/* About & Contact */}
       <section className="info container fade-in">
         <div className="about">
@@ -119,6 +125,7 @@ export default function Homepage() {
           <p>Phone: +880 31 710236</p>
         </div>
       </section>
+      
     </main>
   );
 }
