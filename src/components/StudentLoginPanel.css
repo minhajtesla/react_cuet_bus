@@ -1,0 +1,57 @@
+/* src/components/StudentLoginPanel.css */
+.student-login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .student-login-modal {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 320px;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .student-login-modal h3 {
+    font-size: 24px;
+    margin-bottom: 1rem;
+  }
+  
+  .student-login-modal input {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .student-login-modal button {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    background: #0057a5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .student-login-modal .close-button {
+    margin-top: 1rem;
+    background: crimson;
+  }
+  
+  .error {
+    color: red;
+    margin-top: 0.5rem;
+  }
+  

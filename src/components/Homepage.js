@@ -1,17 +1,9 @@
-// src/pages/Homepage.jsx
-// 🔄 Updated: Includes Hero carousel, Google Map with station selector, and styled UI
 import React, { useState, useCallback } from 'react';
-// import { Link } from 'react-router-dom';
-// import { Swiper, SwiperSlide } from 'swiper/react';
+import { Link, useNavigate } from 'react-router-dom';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
-import 'swiper/css';
 import './Homepage.css';
-import Feedback from '../components/Feedback'; // Adjust path as needed
-
-import { Link, useNavigate } from 'react-router-dom'; // Add this at the top if not already
-
-// Inside Homepage component
-
+import Feedback from '../components/Feedback';
+import StudentLoginPanel from '../components/StudentLoginPanel';
 
 const busStations = [
   { id: 1, name: 'CUET Main Gate', position: { lat: 22.4619433, lng: 91.9710592 }, image: '/images/stations/cuet-main.jpg' },
@@ -23,11 +15,7 @@ const busStations = [
 const mapContainerStyle = { width: '100%', height: '400px' };
 
 export default function Homepage() {
-  const slides = [
-    '/images/hero1.jpg',
-    '/images/hero2.jpg',
-    '/images/hero3.jpg',
-  ];
+  
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY,
   });
@@ -37,9 +25,11 @@ export default function Homepage() {
     const station = busStations.find(s => s.id === parseInt(e.target.value));
     setSelectedStation(station);
   }, []);
-  const [showLoginPanel, setShowLoginPanel] = useState(false);
-const navigate = useNavigate();
 
+
+  
+  const [showLoginPanel, setShowLoginPanel] = useState(false);
+  const navigate = useNavigate();
   if (loadError) return <div className="map-loading">Error loading map</div>;
   if (!isLoaded) return <div className="map-loading">Loading map...</div>;
 
@@ -47,25 +37,12 @@ const navigate = useNavigate();
     { title: 'Our Mission', desc: 'Learn about our vision and roadmap.', link: '/mission' },
     { title: 'Bus Fleet', desc: 'Explore our latest models and specs.', link: '/buses' },
     { title: 'Notices', desc: 'Stay updated with the latest announcements.', link: '/notice' },
-    // { title: 'Login / Register', desc: 'Access your account or sign up.', link: '/login' },
   ];
 
   return (
     <main className="homepage">
-      {/* Hero Carousel */}
+      {/* Hero Carousel (Currently Commented Out) */}
       <section className="hero">
-        {/* <Swiper
-          loop
-          autoplay={{ delay: 5000 }}
-          pagination={{ clickable: true }}
-          className="hero-swiper"
-        >
-          {slides.map((src) => (
-            <SwiperSlide key={src}>
-              <div className="hero-slide" style={{ backgroundImage: `url(${src})` }} />
-            </SwiperSlide>
-          ))}
-        </Swiper> */}
         <div className="hero-overlay" />
         <div className="hero-content fade-in">
           <h1>Welcome to CUET Transport</h1>
@@ -76,24 +53,30 @@ const navigate = useNavigate();
         </div>
       </section>
 
-       {/* 🔘 Login / Register Toggle Button */}
-       <section className="login-toggle-section fade-in">
+      {/* 🔘 Login / Register Toggle Button */}
+      <section className="login-toggle-section fade-in">
         <button className="button" onClick={() => setShowLoginPanel(true)}>
           Login / Register
         </button>
       </section>
-      
-       {/* 🚪 Identity Selection Modal */}
-       {showLoginPanel && (
+
+      {/* 🚪 Identity Selection Modal */}
+      {showLoginPanel && (
         <div className="identity-panel-overlay">
           <div className="identity-panel card">
             <h2>Choose Your Identity</h2>
-            <button className="identity-button" onClick={() => navigate('/student-login')}>Student</button>
+            <button className="identity-button" onClick={() => setShowLoginPanel('student')}>Student</button>
+
             <button className="identity-button" onClick={() => navigate('/admin-login')}>Bus Admin</button>
             <button className="identity-button" onClick={() => navigate('/driver-login')}>Bus Staff</button>
             <button className="close-button" onClick={() => setShowLoginPanel(false)}>Close</button>
           </div>
         </div>
+      )}
+
+      
+{showLoginPanel === 'student' && (
+        <StudentLoginPanel onClose={() => setShowLoginPanel(false)} />
       )}
 
       {/* Feature Grid */}
