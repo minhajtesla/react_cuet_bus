@@ -54,12 +54,13 @@ export default function Homepage() {
       </section>
 
       {/* 🔘 Login / Register Toggle Button */}
-      <section className="login-toggle-section fade-in">
-        <button className="button" onClick={() => setShowLoginPanel(true)}>
-          Login / Register
-        </button>
-      </section>
-
+      <div className="login-toggle">
+  <section className="login-toggle-section fade-in">
+    <button className="button" onClick={() => setShowLoginPanel(true)}>
+      Login / Register
+    </button>
+  </section>
+</div> 
       {/* 🚪 Identity Selection Modal */}
       {showLoginPanel && (
         <div className="identity-panel-overlay">

@@ -1,6 +1,7 @@
 /* src/components/StudentLoginPanel.css */
 .student-login-overlay {
     position: fixed;
+    border: 2px solid #ccc;
     top: 0;
     left: 0;
     width: 100%;
@@ -13,10 +14,12 @@
   }
   
   .student-login-modal {
-    background: white;
+    background: rgb(0, 0, 0);
+    border: 2px solid #ccc;
+    box-shadow: 5px 4px 8px rgb(247, 249, 247);
     padding: 2rem;
     border-radius: 1rem;
-    width: 320px;
+    width: 360px;
     text-align: center;
     animation: fadeIn 0.3s ease-in-out;
   }
@@ -24,14 +27,16 @@
   .student-login-modal h3 {
     font-size: 24px;
     margin-bottom: 1rem;
+
   }
   
   .student-login-modal input {
     width: 100%;
     padding: 0.75rem;
     margin: 0.5rem 0;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     border-radius: 8px;
+    animation: fadeIn 0.5s ease-in-out;
   }
   
   .student-login-modal button {
@@ -39,7 +44,7 @@
     padding: 0.75rem;
     margin-top: 1rem;
     background: #0057a5;
-    color: white;
+    color: rgb(254, 254, 254);
     border: none;
     border-radius: 8px;
     cursor: pointer;

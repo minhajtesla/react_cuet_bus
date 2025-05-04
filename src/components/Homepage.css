@@ -200,8 +200,13 @@ body {
   .map-container   { height: 300px; }
 }
 
-/* 🔘 Login / Identity Panel Styles */
-
+/*  Login / Identity Panel Styles */
+.login-toggle{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
 .identity-panel-overlay {
   position: fixed;
   top: 0;
@@ -216,11 +221,14 @@ body {
 }
 
 .identity-panel {
-  background: white;
+  background: rgb(0, 0, 0);
+  border: 2px solid #ccc;
+  box-shadow: 5px 4px 8px rgb(247, 249, 247);
   padding: 2rem;
   border-radius: 1rem;
   text-align: center;
-  width: 320px;
+  width: 350px;
+  height: 50%;
   animation: fadeIn 0.3s ease-in-out;
 }
 
