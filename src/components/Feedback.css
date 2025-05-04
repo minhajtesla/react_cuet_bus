@@ -8,16 +8,16 @@
 } */
 
 .feedback-container {
-    /* background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px); */
-    background-image: url('https://wallpapercave.com/wp/wp9764031.jpg');
+    background: rgba(0, 0, 0, 0.2);
+    /* backdrop-filter: blur(10px); */
+    /* background-image: url('https://wallpapercave.com/wp/wp9764031.jpg'); */
     background-size: cover;
     background-position: center; 
    
     max-width: 500px;
     margin: 50px auto;
     padding: 20px;
-    background-color: #ffffff;
+    background-color: #2d153c;
     border-radius: 8px;
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     transition: transform 0.3s, box-shadow 0.3s;

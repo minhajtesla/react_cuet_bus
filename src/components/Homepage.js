@@ -1,12 +1,16 @@
 // src/pages/Homepage.jsx
 // 🔄 Updated: Includes Hero carousel, Google Map with station selector, and styled UI
 import React, { useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 // import { Swiper, SwiperSlide } from 'swiper/react';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 import 'swiper/css';
 import './Homepage.css';
 import Feedback from '../components/Feedback'; // Adjust path as needed
+
+import { Link, useNavigate } from 'react-router-dom'; // Add this at the top if not already
+
+// Inside Homepage component
 
 
 const busStations = [
@@ -33,6 +37,8 @@ export default function Homepage() {
     const station = busStations.find(s => s.id === parseInt(e.target.value));
     setSelectedStation(station);
   }, []);
+  const [showLoginPanel, setShowLoginPanel] = useState(false);
+const navigate = useNavigate();
 
   if (loadError) return <div className="map-loading">Error loading map</div>;
   if (!isLoaded) return <div className="map-loading">Loading map...</div>;
@@ -41,7 +47,7 @@ export default function Homepage() {
     { title: 'Our Mission', desc: 'Learn about our vision and roadmap.', link: '/mission' },
     { title: 'Bus Fleet', desc: 'Explore our latest models and specs.', link: '/buses' },
     { title: 'Notices', desc: 'Stay updated with the latest announcements.', link: '/notice' },
-    { title: 'Login / Register', desc: 'Access your account or sign up.', link: '/login' },
+    // { title: 'Login / Register', desc: 'Access your account or sign up.', link: '/login' },
   ];
 
   return (
@@ -70,7 +76,25 @@ export default function Homepage() {
         </div>
       </section>
 
+       {/* 🔘 Login / Register Toggle Button */}
+       <section className="login-toggle-section fade-in">
+        <button className="button" onClick={() => setShowLoginPanel(true)}>
+          Login / Register
+        </button>
+      </section>
       
+       {/* 🚪 Identity Selection Modal */}
+       {showLoginPanel && (
+        <div className="identity-panel-overlay">
+          <div className="identity-panel card">
+            <h2>Choose Your Identity</h2>
+            <button className="identity-button" onClick={() => navigate('/student-login')}>Student</button>
+            <button className="identity-button" onClick={() => navigate('/admin-login')}>Bus Admin</button>
+            <button className="identity-button" onClick={() => navigate('/driver-login')}>Bus Staff</button>
+            <button className="close-button" onClick={() => setShowLoginPanel(false)}>Close</button>
+          </div>
+        </div>
+      )}
 
       {/* Feature Grid */}
       <section className="features container fade-in">
