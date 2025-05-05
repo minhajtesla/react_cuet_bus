@@ -4,7 +4,7 @@ import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 import './Homepage.css';
 import Feedback from '../components/Feedback';
 import StudentLoginPanel from '../components/StudentLoginPanel';
-
+import AdminLoginPanel from '../components/AdminLoginPanel';
 const busStations = [
   { id: 1, name: 'CUET Main Gate', position: { lat: 22.4619433, lng: 91.9710592 }, image: '/images/stations/cuet-main.jpg' },
   { id: 2, name: 'Reservoir Stop', position: { lat: 22.4605, lng: 91.9687 }, image: '/images/stations/reservoir.jpg' },
@@ -68,7 +68,7 @@ export default function Homepage() {
             <h2>Choose Your Identity</h2>
             <button className="identity-button" onClick={() => setShowLoginPanel('student')}>Student</button>
 
-            <button className="identity-button" onClick={() => navigate('/admin-login')}>Bus Admin</button>
+            <button className="identity-button" onClick={() => setShowLoginPanel('admin')}>Bus Admin</button>
             <button className="identity-button" onClick={() => navigate('/driver-login')}>Bus Staff</button>
             <button className="close-button" onClick={() => setShowLoginPanel(false)}>Close</button>
           </div>
@@ -76,9 +76,17 @@ export default function Homepage() {
       )}
 
       
-{showLoginPanel === 'student' && (
+      {showLoginPanel === 'student' && (
         <StudentLoginPanel onClose={() => setShowLoginPanel(false)} />
       )}
+      {showLoginPanel === 'admin' && (
+        <AdminLoginPanel onClose={() => setShowLoginPanel(false)} />
+      )}
+      {/* {showLoginPanel === 'driver' && (
+        <DriverLoginPanel onClose={() => setShowLoginPanel(false)} />
+      )} */}
+
+      {/* Welcome Section */}
 
       {/* Feature Grid */}
       <section className="features container fade-in">
