@@ -1,25 +1,27 @@
 import React, {useState} from 'react';
-import './DriverLoginPanel.css';
+import './StudentLoginPanel.css';
 
-function DriverLoginPanel({close})
+function DriverLoginPanel({onClose})
 {
     const [driverId,setdriverId]= useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
+const handleLogin = async (e) => {
+    e.preventDefault();
     try {
         const response = await fetch('http://localhost:8080/api/students/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ studentId, password }),
+            body: JSON.stringify({ driverId, password }),
         });
 
         if (response.ok) {
-            const studentData = await response.json();
-            localStorage.setItem('studentData', JSON.stringify(studentData));
-            window.location.href = '/student-profile'; // use navigate only if you're using routing
+            const driverData = await response.json();
+            localStorage.setItem('driverData', JSON.stringify(driverData));
+            window.location.href = '/driver-profile'; // use navigate only if you're using routing
         } else {
-            setError("Invalid Student ID or Password");
+            setError("Invalid Driver ID or Password");
         }
     } catch (error) {
         console.error('Login error:', error);
@@ -28,8 +30,8 @@ function DriverLoginPanel({close})
 };
 
 return (
-    <div className="driver-login-overlay">
-        <div className='driver-login-modal'>
+    <div className="login-overlay">
+        <div className='login-modal'>
             <h3>driver login</h3>
             <form onSubmit={handleLogin}>
                 <input type="text"
@@ -58,4 +60,4 @@ return (
 
 }
 
-export default 
+export default DriverLoginPanel;
