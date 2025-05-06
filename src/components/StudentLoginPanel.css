@@ -21,7 +21,9 @@
     border-radius: 1rem;
     width: 360px;
     text-align: center;
-    animation: fadeIn 0.3s ease-in-out;
+    /* animation: fadeIn 0.3s ease-in-out; */
+    animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+  
   }
   
   .login-modal h3 {
