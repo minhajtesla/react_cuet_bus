@@ -5,7 +5,7 @@ import './Homepage.css';
 import Feedback from '../components/Feedback';
 import StudentLoginPanel from '../components/StudentLoginPanel';
 import AdminLoginPanel from '../components/AdminLoginPanel';
-
+import StudentRegistrationPanel from './StudentRegistrationPanel';
 import DriverLoginPanel from '../components/DriverLoginPanel';
 
 const busStations = [
@@ -29,10 +29,9 @@ export default function Homepage() {
     setSelectedStation(station);
   }, []);
 
-
-  
   const [showLoginPanel, setShowLoginPanel] = useState(false);
   const navigate = useNavigate();
+  
   if (loadError) return <div className="map-loading">Error loading map</div>;
   if (!isLoaded) return <div className="map-loading">Loading map...</div>;
 
@@ -42,9 +41,14 @@ export default function Homepage() {
     { title: 'Notices', desc: 'Stay updated with the latest announcements.', link: '/notice' },
   ];
 
+  const handleRegisterClick = () => {
+    // This explicitly changes the panel from login to register
+    setShowLoginPanel('register');
+  };
+
   return (
     <main className="homepage">
-      {/* Hero Carousel (Currently Commented Out) */}
+      {/* Hero Carousel */}
       <section className="hero">
         <div className="hero-overlay" />
         <div className="hero-content fade-in">
@@ -56,40 +60,50 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* 🔘 Login / Register Toggle Button */}
+      {/* Login / Register Toggle Button */}
       <div className="login-toggle">
-  <section className="login-toggle-section fade-in">
-    <button className="button" onClick={() => setShowLoginPanel(true)}>
-      Login / Register
-    </button>
-  </section>
-</div> 
-      {/* 🚪 Identity Selection Modal */}
-      {showLoginPanel && (
+        <section className="login-toggle-section fade-in">
+          <button className="button" onClick={() => setShowLoginPanel(true)}>
+            Login / Register
+          </button>
+        </section>
+      </div> 
+
+      {/* Identity Selection Modal */}
+      {showLoginPanel === true && (
         <div className="identity-panel-overlay">
           <div className="identity-panel card">
             <h2>Choose Your Identity</h2>
             <button className="identity-button" onClick={() => setShowLoginPanel('student')}>Student</button>
-
             <button className="identity-button" onClick={() => setShowLoginPanel('admin')}>Bus Admin</button>
             <button className="identity-button" onClick={() => setShowLoginPanel('driver')}>Bus Staff</button>
             <button className="close-button" onClick={() => setShowLoginPanel(false)}>Close</button>
           </div>
         </div>
       )}
-
       
+      {/* Student Login Panel */}
       {showLoginPanel === 'student' && (
-        <StudentLoginPanel onClose={() => setShowLoginPanel(false)} />
+        <StudentLoginPanel
+          onClose={() => setShowLoginPanel(false)}
+          onRegisterClick={handleRegisterClick} 
+        />
       )}
+
+      {/* Admin Login Panel */}
       {showLoginPanel === 'admin' && (
         <AdminLoginPanel onClose={() => setShowLoginPanel(false)} />
       )}
+
+      {/* Driver Login Panel */}
       {showLoginPanel === 'driver' && (
         <DriverLoginPanel onClose={() => setShowLoginPanel(false)} />
       )}
 
-      {/* Welcome Section */}
+      {/* Student Registration Panel */}
+      {showLoginPanel === 'register' && (
+        <StudentRegistrationPanel onClose={() => setShowLoginPanel(false)} />
+      )}
 
       {/* Feature Grid */}
       <section className="features container fade-in">
@@ -100,7 +114,6 @@ export default function Homepage() {
           </Link>
         ))}
       </section>
-
 
       {/* Map Section */}
       <section className="homepage-map card fade-in">
@@ -124,11 +137,12 @@ export default function Homepage() {
           <img src={selectedStation.image} alt={selectedStation.name} className="station-image" />
         </div>
       </section>
-          {/* feedback */}
 
-          <section className="feedback-section container fade-in">
+      {/* Feedback Section */}
+      <section className="feedback-section container fade-in">
         <Feedback />
       </section>
+
       {/* About & Contact */}
       <section className="info container fade-in">
         <div className="about">
@@ -144,7 +158,6 @@ export default function Homepage() {
           <p>Phone: +880 31 710236</p>
         </div>
       </section>
-      
     </main>
   );
 }

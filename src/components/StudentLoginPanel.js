@@ -1,8 +1,7 @@
-// src/components/StudentLoginPanel.jsx
 import React, { useState } from 'react';
 import './StudentLoginPanel.css';
 
-function StudentLoginPanel({ onClose }) {
+function StudentLoginPanel({ onClose, onRegisterClick }) {
     const [studentId, setStudentId] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -15,7 +14,6 @@ function StudentLoginPanel({ onClose }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ studentId, password }),
             });
-
             if (response.ok) {
                 const studentData = await response.json();
                 localStorage.setItem('studentData', JSON.stringify(studentData));
@@ -28,7 +26,7 @@ function StudentLoginPanel({ onClose }) {
             setError("Unable to log in. Please try again later.");
         }
     };
-
+   
     return (
         <div className="login-overlay">
             <div className="login-modal">
@@ -52,7 +50,7 @@ function StudentLoginPanel({ onClose }) {
                     {error && <p className="error">{error}</p>}
                 </form>
                 <p>New Student?</p>
-                <button onClick={() => window.location.href = '/student-register'}>Register Here</button>
+                <button type="button" className="register-button" onClick={onRegisterClick}>Register Here</button>
                 <button className="close-button" onClick={onClose}>Close</button>
             </div>
         </div>

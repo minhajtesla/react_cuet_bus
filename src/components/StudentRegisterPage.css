@@ -1,0 +1,147 @@
+/* src/components/StudentRegisterPage.css */
+.student-register-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.student-register-form {
+  background: #000;
+  border: 2px solid #ccc;
+  box-shadow: 5px 4px 8px rgba(247, 249, 247, 0.5);
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+}
+
+.student-register-form h3 {
+  font-size: 24px;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.student-register-form input,
+.student-register-form select {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background: #111;
+  color: #eee;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.student-register-form input::placeholder {
+  color: #bbb;
+}
+
+.student-register-form .captcha-section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.student-register-form .captcha-section input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+.student-register-form .captcha-section label {
+  color: #fff;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.student-register-form button[type="submit"] {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  background: #0057a5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  align-self: center;
+}
+
+.student-register-form button[type="submit"]:hover {
+  background: #004080;
+}
+
+.student-register-form .close-button {
+  margin-top: 1rem;
+  background: crimson;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  align-self: center;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .student-register-form {
+    padding: 1.5rem;
+    width: 320px;
+  }
+
+  .student-register-form h3 {
+    font-size: 20px;
+  }
+
+  .student-register-form input,
+  .student-register-form select {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .student-register-form button[type="submit"] {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .student-register-form {
+    padding: 1rem;
+    width: 90%;
+  }
+
+  .student-register-form h3 {
+    font-size: 18px;
+  }
+
+  .student-register-form input,
+  .student-register-form select {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .student-register-form button[type="submit"] {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+}
