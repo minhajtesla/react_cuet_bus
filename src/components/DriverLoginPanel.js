@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import './StudentLoginPanel.css';
+import { useNavigate } from 'react-router-dom';
 
 function DriverLoginPanel({ onClose, onRegisterClick }) {
 
+    const navigate = useNavigate();
     const [driverId,setdriverId]= useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -10,7 +12,7 @@ function DriverLoginPanel({ onClose, onRegisterClick }) {
 const handleLogin = async (e) => {
     e.preventDefault();
     try {
-        const response = await fetch('http://localhost:8080/api/students/login', {
+        const response = await fetch('http://localhost:8080/api/drivers/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ driverId, password }),
@@ -20,6 +22,7 @@ const handleLogin = async (e) => {
             const driverData = await response.json();
             localStorage.setItem('driverData', JSON.stringify(driverData));
             window.location.href = '/driver-profile'; // use navigate only if you're using routing
+            navigate('/driver-profile');
         } else {
             setError("Invalid Driver ID or Password");
         }

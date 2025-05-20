@@ -1,155 +1,354 @@
-/* StudentProfilePage.css */
-.student-profile-page {
-    background-image: url('https://scontent.fcgp6-1.fna.fbcdn.net/v/t39.30808-6/241031011_1967400103398697_6325596919281852772_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=f727a1&_nc_ohc=YhtGIjHNTtsQ7kNvgGLvt9h&_nc_zt=23&_nc_ht=scontent.fcgp6-1.fna&_nc_gid=AuM_42zaom43dvfh3j1Przu&oh=00_AYAhV_qAfZXNE0gpJLJGHu2EtUIrj2yiop9jkD2yyrKALg&oe=673AAD72');
-  background-size: cover;
-  background-position: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh; /* Ensure it takes the full height */
-    /* background-color: #f4f4f4; */
+/* StudentProfilePage.css - Advanced styling with animations and responsive design */
+
+/* :root {
+  --primary-color: #4a6bff;
+  --secondary-color: #8e24aa;
+  --background-dark: #1a1a2e;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --text-light: #ffffff;
+  --text-muted: #b8b8d4;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --accent-gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  --card-border: rgba(255, 255, 255, 0.1);
+} */
+
+.profile-page {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at top, #16213e, var(--background-dark));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Inter', 'Roboto', sans-serif;
+  padding: 20px;
+  color: var(--text-light);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated background elements */
+.profile-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%232e3a5f' fill-opacity='0.15' fill-rule='evenodd'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.profile-page::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 90%;
+  height: 90%;
+  background: radial-gradient(circle, rgba(74, 107, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+  z-index: 0;
+  animation: pulse 15s infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
 }
 
 .profile-container {
-    background-image: url('https://wallpapercave.com/wp/wp9764031.jpg');
-  background-size: cover;
-  background-position: center;
-    display: flex; /* Use flex to layout details */
-    justify-content: center; /* Center the profile details */
-    width: 80%; /* Set a width for the profile container */
-    max-width: 1200px; /* Optional: set a max-width */
-    margin-top: 20px; /* Add some space above */
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 15px 25px var(--shadow-color);
+  padding: 40px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.profile-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 30px var(--shadow-color);
+}
+
+/* Shine effect on container */
+.profile-container::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(45deg);
+  animation: shine 10s infinite;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  0% {
+    top: -100%;
+    left: -100%;
+  }
+  100% {
+    top: 100%;
+    left: 100%;
+  }
 }
 
 .profile-detailss {
-    width: 100%; /* Full width */
-    max-width: 800px; /* Optional: limit max width for better readability */
-    padding: 25px 30px; /* More padding for a spacious feel */
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* Space between elements */
-    
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(240, 240, 240, 0.9));
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15); /* Softer shadow */
-    border-radius: 15px;
-    
-    font-family: Arial, sans-serif;
-    font-weight: bold; /* Apply boldness to text */
-    color: #333; /* A darker text color for contrast */
-    
-    /* Add transition for hover effect */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 30px;
+  position: relative;
+  border-left: 3px solid var(--primary-color);
+  padding-left: 20px;
 }
 
-.profile-detailss:hover {
-    transform: translateY(-5px); /* Slightly raise on hover */
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+.profile-detailss::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -3px;
+  width: 3px;
+  height: 0;
+  background: var(--accent-gradient);
+  animation: line-grow 1.5s ease-out forwards;
 }
 
-
-h3 {
-    margin-bottom: 20px;
-    font-family: Arial, sans-serif;
-    color: #333;
+@keyframes line-grow {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 100%;
+  }
 }
 
-/* Dropdown Menu */
-.dropdown-menu {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 20px; /* Space below the menu */
+.profile-detailss p {
+  margin: 15px 0;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+  animation: fade-in 0.5s ease-out forwards;
+  opacity: 0;
 }
 
-.dropbtn {
-    background-color: #4CAF50; /* Green background */
-    color: white; /* White text */
-    padding: 10px; /* Padding */
-    font-size: 16px; /* Font size */
-    border: none; /* Remove borders */
-    cursor: pointer; /* Pointer cursor on hover */
+.profile-detailss p:nth-child(1) { animation-delay: 0.1s; }
+.profile-detailss p:nth-child(2) { animation-delay: 0.2s; }
+.profile-detailss p:nth-child(3) { animation-delay: 0.3s; }
+.profile-detailss p:nth-child(4) { animation-delay: 0.4s; }
+.profile-detailss p:nth-child(5) { animation-delay: 0.5s; }
+.profile-detailss p:nth-child(6) { animation-delay: 0.6s; }
+.profile-detailss p:nth-child(7) { animation-delay: 0.7s; }
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.dropdown-content {
-    display: none; /* Hidden by default */
-    position: absolute; /* Position it below the button */
-    background-color: #f9f9f9; /* White background */
-    min-width: 160px; /* Set width */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Shadow */
-    z-index: 1; /* Show on top */
+.profile-detailss p:hover {
+  transform: translateX(5px);
 }
 
-.dropdown-menu:hover .dropdown-content {
-    display: block; /* Show the dropdown menu on hover */
+.profile-detailss strong {
+  min-width: 120px;
+  display: inline-block;
+  position: relative;
+  font-weight: 600;
+  color: var(--primary-color);
 }
 
-.dropdown-content a {
-    color: black; /* Black text */
-    padding: 12px 16px; /* Padding */
-    text-decoration: none; /* No underline */
-    display: block; /* Make links block elements */
+.profile-detailss strong::after {
+  content: ':';
+  position: absolute;
+  right: 10px;
 }
 
-.dropdown-content a:hover {
-    background-color: #f1f1f1; /* Change background on hover */
-}
-
-/* Back button styles */
-.back-button {
-    margin-top: 20px; /* Space above */
-    padding: 10px; /* Padding */
-    background-color: #2196F3; /* Blue background */
-    color: white; /* White text */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor */
-}
-
-.back-button a {
-    color: white; /* White text for link */
-    text-decoration: none; /* No underline */
-}
-
-/* Add this to your StudentProfilePage.css */
-
-.bus-schedule-button {
-    margin-top: 20px; /* Space above */
-}
-
-.schedule-button {
-    padding: 10px; /* Padding */
-    background-color: #2196F3; /* Blue background */
-    color: white; /* White text */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor */
-}
-
-.schedule-button:hover {
-    background-color: #1976D2; /* Darker blue on hover */
-}
-
-/* Profile Actions Buttons */
 .profile-actions {
-    margin-top: 20px;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
+  animation: fade-in 0.5s ease-out 0.8s forwards;
+  opacity: 0;
 }
 
-.seat-booking-button, .back-home-button {
-    display: inline-block;
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    margin: 10px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 16px;
-    transition: background-color 0.3s, transform 0.2s;
-    cursor: pointer;
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 25px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
-.seat-booking-button:hover, .back-home-button:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
+.seat-booking-button {
+  background: var(--accent-gradient);
+  color: white;
+  box-shadow: 0 5px 15px rgba(74, 107, 255, 0.4);
 }
 
+.seat-booking-button:hover {
+  box-shadow: 0 8px 20px rgba(74, 107, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.seat-booking-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+  z-index: -1;
+}
+
+.seat-booking-button:hover::before {
+  left: 100%;
+  animation: shine-effect 1.5s infinite;
+}
+
+@keyframes shine-effect {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.back-home-button {
+  background: transparent;
+  color: var(--text-light);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(5px);
+}
+
+.back-home-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+/* Media Queries for Responsive Design */
+@media screen and (min-width: 768px) {
+  .profile-actions {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .button {
+    min-width: 200px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .profile-container {
+    padding: 30px 20px;
+  }
+  
+  .profile-detailss strong {
+    min-width: 100px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .profile-container {
+    padding: 25px 15px;
+    border-radius: 15px;
+  }
+  
+  .profile-detailss {
+    padding-left: 15px;
+  }
+  
+  .profile-detailss p {
+    font-size: 14px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .profile-detailss strong {
+    margin-bottom: 5px;
+  }
+  
+  .profile-detailss strong::after {
+    display: none;
+  }
+  
+  .button {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color);
+}
+
+/* Print styling */
+@media print {
+  .student-profile-page {
+    background: white;
+    color: black;
+  }
+  
+  .profile-container {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+  
+  .profile-actions {
+    display: none;
+  }
+}
