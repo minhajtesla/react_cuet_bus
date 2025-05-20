@@ -79,11 +79,10 @@ function StudentRegistrationPanel({onClose})
     };
 
 return (
-    <div className="student-register-page">
-            
+    <div className="register-page">
 
-            
-            <form className="student-register-form" onSubmit={handleSubmit}>
+
+            <form className="register-form" onSubmit={handleSubmit}>
             <h3 style={{ color: 'white' }}>Student Register</h3>
                 <input 
                     type="text" 
@@ -176,6 +175,7 @@ return (
                 </div>
 
                 <button type="submit">Register</button>
+                <button type="button" onClick={onClose}>Close</button>
             </form>
         </div>
     );

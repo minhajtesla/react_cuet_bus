@@ -7,6 +7,7 @@ import StudentLoginPanel from '../components/StudentLoginPanel';
 import AdminLoginPanel from '../components/AdminLoginPanel';
 import StudentRegistrationPanel from './StudentRegistrationPanel';
 import DriverLoginPanel from '../components/DriverLoginPanel';
+import DriverRegistrationPanel from './DriverRegistrationPanel'; // Make sure this import is correct
 
 const busStations = [
   { id: 1, name: 'CUET Main Gate', position: { lat: 22.4619433, lng: 91.9710592 }, image: '/images/stations/cuet-main.jpg' },
@@ -104,6 +105,20 @@ export default function Homepage() {
       {showLoginPanel === 'register' && (
         <StudentRegistrationPanel onClose={() => setShowLoginPanel(false)} />
       )}
+
+     {/* Driver Login Panel */}
+{showLoginPanel === 'driver' && (
+  <DriverLoginPanel
+    onClose={() => setShowLoginPanel(false)}
+    onRegisterClick={() => setShowLoginPanel('driver-register')}
+  />
+)}
+
+{/* Driver Registration Panel */}
+{showLoginPanel === 'driver-register' && (
+  <DriverRegistrationPanel onClose={() => setShowLoginPanel(false)} />
+)}
+
 
       {/* Feature Grid */}
       <section className="features container fade-in">

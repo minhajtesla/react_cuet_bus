@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import './StudentLoginPanel.css';
 
-function DriverLoginPanel({onClose})
-{
+function DriverLoginPanel({ onClose, onRegisterClick }) {
+
     const [driverId,setdriverId]= useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -50,8 +50,9 @@ return (
                      <button type="submit">Login</button>
                      {error && <p className="error">{error}</p>}
             </form>
-            <p>New Student?</p>
-                <button onClick={() => window.location.href = '/student-register'}>Register Here</button>
+           
+<button onClick={onRegisterClick}>Register Here</button>
+
                 <button className="close-button" onClick={onClose}>Close</button>
         </div>
     </div>
