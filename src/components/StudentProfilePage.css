@@ -1,0 +1,155 @@
+/* StudentProfilePage.css */
+.student-profile-page {
+    background-image: url('https://scontent.fcgp6-1.fna.fbcdn.net/v/t39.30808-6/241031011_1967400103398697_6325596919281852772_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=f727a1&_nc_ohc=YhtGIjHNTtsQ7kNvgGLvt9h&_nc_zt=23&_nc_ht=scontent.fcgp6-1.fna&_nc_gid=AuM_42zaom43dvfh3j1Przu&oh=00_AYAhV_qAfZXNE0gpJLJGHu2EtUIrj2yiop9jkD2yyrKALg&oe=673AAD72');
+  background-size: cover;
+  background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh; /* Ensure it takes the full height */
+    /* background-color: #f4f4f4; */
+}
+
+.profile-container {
+    background-image: url('https://wallpapercave.com/wp/wp9764031.jpg');
+  background-size: cover;
+  background-position: center;
+    display: flex; /* Use flex to layout details */
+    justify-content: center; /* Center the profile details */
+    width: 80%; /* Set a width for the profile container */
+    max-width: 1200px; /* Optional: set a max-width */
+    margin-top: 20px; /* Add some space above */
+}
+
+.profile-detailss {
+    width: 100%; /* Full width */
+    max-width: 800px; /* Optional: limit max width for better readability */
+    padding: 25px 30px; /* More padding for a spacious feel */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between elements */
+    
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(240, 240, 240, 0.9));
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15); /* Softer shadow */
+    border-radius: 15px;
+    
+    font-family: Arial, sans-serif;
+    font-weight: bold; /* Apply boldness to text */
+    color: #333; /* A darker text color for contrast */
+    
+    /* Add transition for hover effect */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-detailss:hover {
+    transform: translateY(-5px); /* Slightly raise on hover */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+
+h3 {
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px; /* Space below the menu */
+}
+
+.dropbtn {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    padding: 10px; /* Padding */
+    font-size: 16px; /* Font size */
+    border: none; /* Remove borders */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.dropdown-content {
+    display: none; /* Hidden by default */
+    position: absolute; /* Position it below the button */
+    background-color: #f9f9f9; /* White background */
+    min-width: 160px; /* Set width */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Shadow */
+    z-index: 1; /* Show on top */
+}
+
+.dropdown-menu:hover .dropdown-content {
+    display: block; /* Show the dropdown menu on hover */
+}
+
+.dropdown-content a {
+    color: black; /* Black text */
+    padding: 12px 16px; /* Padding */
+    text-decoration: none; /* No underline */
+    display: block; /* Make links block elements */
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1; /* Change background on hover */
+}
+
+/* Back button styles */
+.back-button {
+    margin-top: 20px; /* Space above */
+    padding: 10px; /* Padding */
+    background-color: #2196F3; /* Blue background */
+    color: white; /* White text */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+}
+
+.back-button a {
+    color: white; /* White text for link */
+    text-decoration: none; /* No underline */
+}
+
+/* Add this to your StudentProfilePage.css */
+
+.bus-schedule-button {
+    margin-top: 20px; /* Space above */
+}
+
+.schedule-button {
+    padding: 10px; /* Padding */
+    background-color: #2196F3; /* Blue background */
+    color: white; /* White text */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+}
+
+.schedule-button:hover {
+    background-color: #1976D2; /* Darker blue on hover */
+}
+
+/* Profile Actions Buttons */
+.profile-actions {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.seat-booking-button, .back-home-button {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s;
+    cursor: pointer;
+}
+
+.seat-booking-button:hover, .back-home-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+

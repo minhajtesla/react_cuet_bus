@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import './StudentLoginPanel.css';
+import { useNavigate } from 'react-router-dom';
 
 function StudentLoginPanel({ onClose, onRegisterClick }) {
     const [studentId, setStudentId] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
+    const navigate = useNavigate();
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -18,6 +20,7 @@ function StudentLoginPanel({ onClose, onRegisterClick }) {
                 const studentData = await response.json();
                 localStorage.setItem('studentData', JSON.stringify(studentData));
                 window.location.href = '/student-profile'; // use navigate only if you're using routing
+                navigate('/student-profile');
             } else {
                 setError("Invalid Student ID or Password");
             }
