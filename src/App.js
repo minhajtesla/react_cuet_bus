@@ -6,6 +6,8 @@ import StudentProfilePage from './components/StudentProfilePage';
 import DriverLoginPanel from './components/DriverLoginPanel';
 import Navbar from './components/Navbar';
 import DriverProfilePage from './components/DriverProfilePage';
+import AdminProfilePage from './components/AdminProfilePage';
+
 function App() {
   return (
     <div className="App">
@@ -18,6 +20,7 @@ function App() {
       <Route path="/student-register" element={<StudentLoginPanel />} />
       <Route path="/student-profile" element={<StudentProfilePage />} />
       <Route path="/driver-profile" element={<DriverProfilePage />} />
+      <Route path="/admin-profile" element={<AdminProfilePage />} />
       {/* Add other routes here */}
       </Routes>
       </Router>

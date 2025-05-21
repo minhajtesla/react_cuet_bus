@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import './StudentLoginPanel.css';
+import { useNavigate } from 'react-router-dom';
 
 function AdminLoginPanel({ onClose }) {
     const [adminId, setAdminId] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
+
+
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -18,7 +22,8 @@ function AdminLoginPanel({ onClose }) {
             if (response.ok) {
                 const adminData = await response.json();
                 localStorage.setItem('adminData', JSON.stringify(adminData));
-                window.location.href = '/admin-dashboard'; // use navigate only if you're using routing
+                window.location.href = '/admin-profile'; // use navigate only if you're using routing
+                navigate('/admin-profile', { state: { admin: adminData } });
             } else {
                 setError("Invalid Admin ID or Password");
             }
