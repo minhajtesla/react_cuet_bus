@@ -31,7 +31,7 @@ function AdminProfilePage() {
                     <p><strong>Email:</strong> {adminData.email}</p>
                     <button
                       className="adminbutton"
-                      onClick={() => navigate('/assign-driver-to-bus')}
+                      onClick={() => navigate('/assign-driver')}
                     >
                       MANAGE BUS
                     </button>

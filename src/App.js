@@ -7,6 +7,8 @@ import DriverLoginPanel from './components/DriverLoginPanel';
 import Navbar from './components/Navbar';
 import DriverProfilePage from './components/DriverProfilePage';
 import AdminProfilePage from './components/AdminProfilePage';
+import BusSchedulePage from './components/BusSchedulePage';
+import AssignDriverToBus from "./components/AssignDriverToBus";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
       <Route path="/student-profile" element={<StudentProfilePage />} />
       <Route path="/driver-profile" element={<DriverProfilePage />} />
       <Route path="/admin-profile" element={<AdminProfilePage />} />
+      <Route path="/assign-driver" element={<AssignDriverToBus />} />
+      <Route path="/bus-schedule" element={<BusSchedulePage />} />
       {/* Add other routes here */}
       </Routes>
       </Router>
