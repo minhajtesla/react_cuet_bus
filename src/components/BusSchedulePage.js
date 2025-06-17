@@ -321,6 +321,13 @@ function BusSchedulePage() {
                                 <span style={styles.locationLabel}>📍 Current Location:</span>
                                 <span style={styles.locationValue}>{busStopages[bus.name] || "Loading..."}</span>
                             </div>
+                            {/* 🆕 Direction display */}
+    <div style={styles.statItem}>
+        <span style={styles.statLabel}>Direction:</span>
+        <span style={styles.statValue}>
+            {bus.direction === "TO_CUET" ? "➡ To CUET" : "⬅ From CUET"}
+        </span>
+    </div>
                         </div>
                     ))}
                 </div>

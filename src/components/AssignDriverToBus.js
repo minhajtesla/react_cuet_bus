@@ -2,124 +2,224 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const AssignDriverToBus = () => {
-    const [buses, setBuses] = useState([]);
-    const [drivers, setDrivers] = useState([]);
+    const [buses, setBuses] = useState([]);             // inactive buses for assignment dropdown
+    const [drivers, setDrivers] = useState([]);         // drivers without bus
     const [selectedBus, setSelectedBus] = useState("");
     const [selectedDriver, setSelectedDriver] = useState("");
-    const [assignments, setAssignments] = useState([]);
-    const [activeBuses, setActiveBuses] = useState([]);
+    const [selectedDirection, setSelectedDirection] = useState("");
+    const [assignments, setAssignments] = useState([]); // pending assignments
+    const [activeBuses, setActiveBuses] = useState([]); // for dashboard
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    useEffect(() => {
-        fetchDrivers();
-        fetchInactiveBuses();
-        fetchActiveBusesWithDrivers();
-    }, []);
-
-    const fetchDrivers = () => {
-        axios.get("http://localhost:8080/api/drivers/drivers-without-bus")
-            .then(response => setDrivers(response.data))
-            .catch(error => console.error("Error fetching drivers:", error));
-    };
-
-    const fetchInactiveBuses = () => {
-        axios.get("http://localhost:8080/api/buses/inactive")
-            .then(response => setBuses(response.data))
-            .catch(error => console.error("Error fetching buses:", error));
-    };
-
-    const fetchActiveBusesWithDrivers = () => {
+    // Fetch active buses for dashboard
+    const fetchActiveBuses = () => {
         setLoading(true);
         axios.get("http://localhost:8080/api/buses/active")
             .then((response) => {
                 setActiveBuses(Array.isArray(response.data) ? response.data : []);
                 setLoading(false);
             })
-            .catch((error) => {
-                console.error("Error fetching active buses with drivers:", error);
+            .catch((err) => {
+                console.error("Error fetching active buses:", err);
                 setError("Failed to fetch active buses. Please try again.");
                 setLoading(false);
             });
     };
 
+    // Fetch drivers without a bus
+    const fetchDrivers = () => {
+        axios.get("http://localhost:8080/api/drivers/drivers-without-bus")
+            .then(response => setDrivers(response.data))
+            .catch(err => console.error("Error fetching drivers:", err));
+    };
+
+    // Fetch inactive buses for assignment dropdown
+    const fetchInactiveBuses = () => {
+        axios.get("http://localhost:8080/api/buses/inactive")
+            .then(response => setBuses(response.data))
+            .catch(err => console.error("Error fetching inactive buses:", err));
+    };
+
+    // Initial fetch on mount
+    useEffect(() => {
+        fetchDrivers();
+        fetchInactiveBuses();
+        fetchActiveBuses();
+    }, []);
+
+    // Handle adding one assignment to pending list
     const handleAssign = () => {
-        if (selectedBus && selectedDriver) {
+        if (selectedBus && selectedDriver && selectedDirection) {
             setAssignments(prev => [
                 ...prev,
-                { bus: selectedBus, driver: selectedDriver, status: "ACTIVE" }
+                {
+                    bus: selectedBus,
+                    driver: selectedDriver,
+                    direction: selectedDirection,
+                    status: "ACTIVE"
+                }
             ]);
             setSelectedBus("");
             setSelectedDriver("");
+            setSelectedDirection("");
         } else {
-            alert("Please select both a bus and a driver.");
+            alert("Please select bus, driver, and direction.");
         }
     };
 
-    const handleSubmitAssignments = () => {
-        const assignmentPromises = assignments.map(assignment => {
-            return axios.post(`http://localhost:8080/api/drivers/${assignment.driver}/assign-to-bus/${assignment.bus}`)
+    // Submit all pending assignments
+    const handleSubmitAssignments = async () => {
+        if (!assignments.length) return;
+        try {
+            // For each assignment: assign driver, set direction, set status
+            const promises = assignments.map(assignment => {
+                return axios.post(
+                    `http://localhost:8080/api/drivers/${encodeURIComponent(assignment.driver)}/assign-to-bus/${encodeURIComponent(assignment.bus)}`
+                )
                 .then(() => {
-                    return axios.put(`http://localhost:8080/api/buses/${assignment.bus}/status`, null, {
-                        params: { status: assignment.status }
-                    });
+                    return axios.put(
+                        `http://localhost:8080/api/buses/${encodeURIComponent(assignment.bus)}/direction`,
+                        null,
+                        { params: { direction: assignment.direction } }
+                    );
+                })
+                .then(() => {
+                    return axios.put(
+                        `http://localhost:8080/api/buses/${encodeURIComponent(assignment.bus)}/status`,
+                        null,
+                        { params: { status: assignment.status } }
+                    );
                 });
-        });
-
-        Promise.all(assignmentPromises)
-            .then(() => {
-                alert("All assignments successful!");
-                setAssignments([]);
-                fetchDrivers();
-                fetchInactiveBuses();
-                fetchActiveBusesWithDrivers();
-            })
-            .catch(error => {
-                console.error("Error assigning:", error);
-                alert("An error occurred during assignment.");
             });
+
+            await Promise.all(promises);
+            alert("All assignments successful!");
+            setAssignments([]);
+            // Refresh data
+            fetchDrivers();
+            fetchInactiveBuses();
+            fetchActiveBuses();
+        } catch (err) {
+            console.error("Error assigning:", err);
+            alert("An error occurred during assignment. Check console.");
+        }
+    };
+
+    // Bulk action: Unassign all drivers, inactivate all active buses, reset seats
+    const unassignAndInactivateAll = async () => {
+        if (!activeBuses.length) {
+            alert("No active buses to process.");
+            return;
+        }
+        try {
+            // 1. Unassign all drivers (call once)
+            await axios.put("http://localhost:8080/api/drivers/unassign");
+            console.log("All drivers unassigned from buses.");
+
+            // 2. Set all active buses to INACTIVE in parallel
+            await Promise.all(activeBuses.map(bus =>
+                axios.put(
+                    `http://localhost:8080/api/buses/${encodeURIComponent(bus.name)}/status`,
+                    null,
+                    { params: { status: "INACTIVE" } }
+                )
+            ));
+            console.log("All active buses set to INACTIVE.");
+
+            // 3. Reset occupied seats
+            await axios.put("http://localhost:8080/api/buses/reset-occupied-seats");
+            console.log("All buses' occupied seats reset.");
+
+            alert("Drivers unassigned and buses inactivated (seats reset).");
+            // Refresh data
+            fetchDrivers();
+            fetchInactiveBuses();
+            fetchActiveBuses();
+        } catch (err) {
+            console.error("Error during unassignAndInactivateAll:", err);
+            alert("Error during bulk reset. Check console.");
+        }
     };
 
     return (
         <div style={styles.container}>
             <h1 style={styles.heading}>Assign Driver to Bus</h1>
 
+            {/* Assignment section */}
             <div style={styles.inputSection}>
-                <label style={styles.label}>Select Bus: </label>
-                <select style={styles.select} value={selectedBus} onChange={e => setSelectedBus(e.target.value)}>
+                <label style={styles.label}>Select Bus:</label>
+                <select
+                    style={styles.select}
+                    value={selectedBus}
+                    onChange={e => setSelectedBus(e.target.value)}
+                >
                     <option value="">--Select Bus--</option>
                     {buses.map(bus => (
                         <option key={bus.name} value={bus.name}>{bus.name}</option>
                     ))}
                 </select>
 
-                <label style={styles.label}>Select Driver: </label>
-                <select style={styles.select} value={selectedDriver} onChange={e => setSelectedDriver(e.target.value)}>
+                <label style={styles.label}>Select Driver:</label>
+                <select
+                    style={styles.select}
+                    value={selectedDriver}
+                    onChange={e => setSelectedDriver(e.target.value)}
+                >
                     <option value="">--Select Driver--</option>
                     {drivers.map(driver => (
                         <option key={driver.driverId} value={driver.driverId}>{driver.name}</option>
                     ))}
                 </select>
 
-                <button onClick={handleAssign} style={styles.button}>Add to Assignment List</button>
+                <label style={styles.label}>Select Direction:</label>
+                <select
+                    style={styles.select}
+                    value={selectedDirection}
+                    onChange={e => setSelectedDirection(e.target.value)}
+                >
+                    <option value="">--Select Direction--</option>
+                    <option value="TO_CUET">To CUET</option>
+                    <option value="FROM_CUET">From CUET</option>
+                </select>
+
+                <button onClick={handleAssign} style={styles.button}>
+                    Add to Assignment List
+                </button>
             </div>
 
+            {/* Pending assignments */}
             {assignments.length > 0 && (
                 <div style={styles.assignmentList}>
                     <h3>Assignments:</h3>
                     <ul>
                         {assignments.map((a, i) => (
-                            <li key={i}>Bus: {a.bus}, Driver: {a.driver}, Status: {a.status}</li>
+                            <li key={i}>
+                                Bus: {a.bus}, Driver: {a.driver}, Direction: {a.direction}, Status: {a.status}
+                            </li>
                         ))}
                     </ul>
-                    <button onClick={handleSubmitAssignments} style={styles.confirmButton}>Confirm All Assignments</button>
+                    <button onClick={handleSubmitAssignments} style={styles.confirmButton}>
+                        Confirm All Assignments
+                    </button>
                 </div>
             )}
 
             <hr style={styles.divider} />
 
+            {/* Dashboard: active buses */}
             <h2 style={styles.subheading}>Active Buses with Drivers (Dashboard)</h2>
-            <button onClick={fetchActiveBusesWithDrivers} style={styles.refreshButton}>Refresh</button>
+            <div style={{ marginBottom: "10px" }}>
+                <button onClick={fetchActiveBuses} style={styles.refreshButton}>
+                    Refresh
+                </button>
+                <button
+                    onClick={unassignAndInactivateAll}
+                    style={{ ...styles.refreshButton, backgroundColor: "#f44336", marginLeft: "10px" }}
+                >
+                    Unassign Drivers & Inactivate All
+                </button>
+            </div>
 
             {loading ? (
                 <p>Loading...</p>
@@ -137,7 +237,7 @@ const AssignDriverToBus = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {activeBuses.map((bus) => (
+                            {activeBuses.map(bus => (
                                 <tr key={bus.name}>
                                     <td>{bus.name}</td>
                                     <td>{bus.driver ? bus.driver.name : "No Driver Assigned"}</td>
