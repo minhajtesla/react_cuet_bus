@@ -7,6 +7,7 @@ function AdminProfilePage() {
     const [adminData, setAdminData] = useState(null);
 
     useEffect(() => {
+        //hello
         // state-এ admin না থাকলে localStorage থেকে পড়ে নেবে
         const stateData = location.state?.admin;
         if (stateData) {
