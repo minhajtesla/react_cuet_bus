@@ -12,20 +12,76 @@ const AssignDriverToBus = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+    // New state
+const [driversWithBus, setDriversWithBus] = useState([]);
+
+// Fetch function
+const fetchDriversWithBus = () => {
+    axios.get("http://localhost:8080/api/drivers/driver-with-bus")
+        .then((res) => {
+            setDriversWithBus(res.data);
+        })
+        .catch((err) => {
+            console.error("Error fetching drivers with bus:", err);
+        });
+};
+
+// Call it once on mount
+useEffect(() => {
+    fetchDriversWithBus();
+}, []);
+
+
     // Fetch active buses for dashboard
     const fetchActiveBuses = () => {
-        setLoading(true);
-        axios.get("http://localhost:8080/api/buses/active")
-            .then((response) => {
-                setActiveBuses(Array.isArray(response.data) ? response.data : []);
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.error("Error fetching active buses:", err);
-                setError("Failed to fetch active buses. Please try again.");
-                setLoading(false);
-            });
-    };
+    setLoading(true);
+    axios.get("http://localhost:8080/api/buses/active")
+        .then(async (response) => {
+            const buses = Array.isArray(response.data) ? response.data : [];
+
+            const busesWithDetails = await Promise.all(
+                buses.map(async (bus) => {
+                    let direction = "Unknown";
+                    let stopage = "Not Set";
+
+                    try {
+                        const directionRes = await axios.get(`http://localhost:8080/api/buses/${bus.name}/direction`);
+                        direction = directionRes.data;
+                    } catch (err) {
+                        console.warn(`Direction fetch failed for ${bus.name}`, err);
+                    }
+
+                    try {
+                        const stopageRes = await axios.get(`http://localhost:8080/api/buses/${bus.name}/stopage`);
+                        stopage = stopageRes.data;
+                    } catch (err) {
+                        console.warn(`Stopage fetch failed for ${bus.name}`, err);
+                        // Handle fallback based on direction if stopage not found
+                        stopage = direction === "TO_CUET"
+                            ? "Station"
+                            : direction === "FROM_CUET"
+                            ? "CUET"
+                            : "Not Set";
+                    }
+
+                    return {
+                        ...bus,
+                        direction,
+                        stopage
+                    };
+                })
+            );
+
+            setActiveBuses(busesWithDetails);
+            setLoading(false);
+        })
+        .catch((err) => {
+            console.error("Error fetching active buses:", err);
+            setError("Failed to fetch active buses. Please try again.");
+            setLoading(false);
+        });
+};
+
 
     // Fetch drivers without a bus
     const fetchDrivers = () => {
@@ -78,11 +134,23 @@ const AssignDriverToBus = () => {
                     `http://localhost:8080/api/drivers/${encodeURIComponent(assignment.driver)}/assign-to-bus/${encodeURIComponent(assignment.bus)}`
                 )
                 .then(() => {
+                    // Set direction
                     return axios.put(
                         `http://localhost:8080/api/buses/${encodeURIComponent(assignment.bus)}/direction`,
                         null,
                         { params: { direction: assignment.direction } }
-                    );
+                    ).then(async () => {
+                        // Set stopage based on direction
+                        if (assignment.direction === "FROM_CUET") {
+                            await axios.put(
+                                `http://localhost:8080/api/buses/${encodeURIComponent(assignment.bus)}/updateStopage?stopageName=CUET`
+                            );
+                        } else {
+                            await axios.put(
+                                `http://localhost:8080/api/buses/${encodeURIComponent(assignment.bus)}/updateStopage?stopageName=Station`
+                            );
+                        }
+                    });
                 })
                 .then(() => {
                     return axios.put(
@@ -227,30 +295,78 @@ const AssignDriverToBus = () => {
                 <p style={styles.error}>{error}</p>
             ) : (
                 activeBuses.length > 0 ? (
-                    <table style={styles.table}>
+                    <table style={styles.table} border={1} cellPadding={10}>
                         <thead>
                             <tr>
                                 <th>Bus Name</th>
-                                <th>Driver Name</th>
-                                <th>Driver ID</th>
+                                {/* <th>Driver Name</th> */}
+                                {/* <th>Driver ID</th> */}
                                 <th>Status</th>
+                                <th>Direction</th>  {/* ✅ New */}
+                                <th>Stopage</th>    {/* ✅ New */}
+                                <th>Occupied Seats</th> {/* ✅ New */}
                             </tr>
                         </thead>
                         <tbody>
-                            {activeBuses.map(bus => (
-                                <tr key={bus.name}>
-                                    <td>{bus.name}</td>
-                                    <td>{bus.driver ? bus.driver.name : "No Driver Assigned"}</td>
-                                    <td>{bus.driver ? bus.driver.driverId : "N/A"}</td>
-                                    <td>{bus.busStatus}</td>
-                                </tr>
-                            ))}
-                        </tbody>
+
+    {activeBuses.map(bus => (
+        <tr key={bus.name}>
+  <td>{bus.name}</td>
+  {/* <td>{bus.driver ? bus.driver.name : "No Driver Assigned"}</td> */}
+  {/* <td>{bus.driver ? bus.driver.driverId : "N/A"}</td> */}
+  <td>{bus.busStatus}</td>
+  <td>{bus.direction}</td>
+  <td>
+    {bus.stopage === "Not Set"
+      ? bus.direction === "TO_CUET"
+        ? "Station"
+        : bus.direction === "FROM_CUET"
+        ? "CUET"
+        : "Not Set"
+      : bus.stopage}
+  </td>
+<td>{bus.occupiedSeats !== undefined ? bus.occupiedSeats : "N/A"}</td>
+</tr>
+
+    ))}
+</tbody>
+
                     </table>
                 ) : (
                     <p>No active buses found.</p>
                 )
             )}
+
+            <h2 style={styles.subheading}>Drivers with Assigned Buses</h2>
+<div style={{ marginBottom: "10px" }}>
+    <button onClick={fetchDriversWithBus} style={styles.refreshButton}>
+        Refresh Drivers List
+    </button>
+</div>
+
+{driversWithBus.length > 0 ? (
+    <table style={styles.table} border={1} cellPadding={10}>
+        <thead>
+            <tr>
+                <th>Driver Name</th>
+                <th>Driver ID</th>
+                <th>Bus Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {driversWithBus.map((driver) => (
+                <tr key={driver.driverId}>
+                    <td>{driver.name}</td>
+                    <td>{driver.driverId}</td>
+                    <td>{driver.bus ? driver.bus.name : "N/A"}</td>
+                </tr>
+            ))}
+        </tbody>
+    </table>
+) : (
+    <p>No drivers currently assigned to any bus.</p>
+)}
+
         </div>
     );
 };

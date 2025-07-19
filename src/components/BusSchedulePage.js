@@ -14,6 +14,8 @@ function BusSchedulePage() {
     const [busStops, setBusStops] = useState([]);
     const [error, setError] = useState(null);
     const [updateSuccess, setUpdateSuccess] = useState(null);
+    const [selectedDirection, setSelectedDirection] = useState("");
+    
 
     const navigate = useNavigate();
 
@@ -141,7 +143,24 @@ function BusSchedulePage() {
                     </div>
                 )}
             </div>
-
+               <div style={styles.inputGroup}>
+    <label htmlFor="bus-direction" style={styles.label}>Choose Direction:</label>
+    <select
+        id="bus-direction"
+        value={selectedDirection}
+        onChange={(e) => {
+            setSelectedDirection(e.target.value);
+            setSelectedBusName(""); // Reset selected bus
+        }}
+        style={styles.dropdown}
+        
+    >
+        <option value="">-- Select Direction --</option>
+        <option value="TO_CUET">To CUET</option>
+        <option value="FROM_CUET">From CUET</option>
+    </select>
+</div>
+ 
             <div style={styles.selectionContainer}>
                 {/* Step 1: Select Bus Stop */}
                 <div style={styles.stepCard}>
@@ -215,19 +234,22 @@ function BusSchedulePage() {
                     <div style={styles.inputGroup}>
                         <label htmlFor="active-buses" style={styles.label}>Choose Bus:</label>
                         <select
-                            id="active-buses"
-                            value={selectedBusName}
-                            onChange={handleBusChange}
-                            style={styles.dropdown}
-                            disabled={!isBusStopConfirmed}
-                        >
-                            <option value="">-- Select Bus --</option>
-                            {buses.map((bus) => (
-                                <option key={bus.name} value={bus.name}>
-                                    {bus.name} {bus.femaleOnly ? "(Female Only)" : ""}
-                                </option>
-                            ))}
-                        </select>
+    id="active-buses"
+    value={selectedBusName}
+    onChange={handleBusChange}
+    style={styles.dropdown}
+    disabled={!isBusStopConfirmed || !selectedDirection}
+>
+    <option value="">-- Select Bus --</option>
+    {buses
+        .filter((bus) => bus.direction === selectedDirection)
+        .map((bus) => (
+            <option key={bus.name} value={bus.name}>
+                {bus.name} {bus.femaleOnly ? "(Female Only)" : ""}
+            </option>
+        ))}
+</select>
+
                     </div>
 
                     <div style={styles.buttonGroup}>
@@ -249,23 +271,7 @@ function BusSchedulePage() {
                             Assign Bus to Student
                         </button>
                         
-                        <button
-                            style={isBusStopConfirmed && selectedBusName ? styles.bookButton : styles.disabledButton}
-                            onClick={handleBusSeatBooking}
-                            disabled={!isBusStopConfirmed || !selectedBusName}
-                            onMouseEnter={(e) => {
-                                if (!isBusStopConfirmed || !selectedBusName) return;
-                                e.target.style.transform = "translateY(-2px)";
-                                e.target.style.boxShadow = "0 6px 16px rgba(255, 194, 14, 0.4)";
-                            }}
-                            onMouseLeave={(e) => {
-                                if (!isBusStopConfirmed || !selectedBusName) return;
-                                e.target.style.transform = "translateY(0)";
-                                e.target.style.boxShadow = "0 4px 12px rgba(255, 194, 14, 0.3)";
-                            }}
-                        >
-                            📍 Book Seat
-                        </button>
+                        
                     </div>
                 </div>
             </div>

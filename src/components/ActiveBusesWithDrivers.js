@@ -101,7 +101,7 @@ const ActiveBusesWithDrivers = () => {
                             {activeBuses.map((bus) => (
                                 <tr key={bus.name}>
                                     <td>{bus.name}</td>
-                                    <td>{bus.driver ? bus.driver.name : "No Driver Assigned"}</td>
+                                    <td>{bus.driver ? bus.driver.name : "No Driver Assigned and never will be"}</td>
                                     <td>{bus.driver ? bus.driver.driverId : "N/A"}</td>
                                     <td>{bus.busStatus}</td>
                                 </tr>
