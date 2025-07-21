@@ -15,6 +15,8 @@ function BusSchedulePage() {
     const [error, setError] = useState(null);
     const [updateSuccess, setUpdateSuccess] = useState(null);
     const [selectedDirection, setSelectedDirection] = useState("");
+    const [isStudentAssigned, setIsStudentAssigned] = useState(false);
+    const [assignedBusName, setAssignedBusName] = useState("");
     
 
     const navigate = useNavigate();
@@ -23,7 +25,43 @@ function BusSchedulePage() {
         // Fetch logged-in student data from localStorage
         const storedData = localStorage.getItem("studentData");
         if (storedData) {
-            setStudentData(JSON.parse(storedData));
+            const studentInfo = JSON.parse(storedData);
+            setStudentData(studentInfo);
+            
+            // Check if student is already assigned to a bus
+            if (studentInfo.studentId) {
+                axios.get(`http://localhost:8080/api/students/${studentInfo.studentId}/assigned-bus`)
+                    .then((response) => {
+                        if (response.data && response.data.busName) {
+                            setIsStudentAssigned(true);
+                            setAssignedBusName(response.data.busName);
+                            setSelectedBusName(response.data.busName);
+                            localStorage.setItem("selectedBusName", response.data.busName);
+                        }
+                    })
+                    .catch((error) => {
+                        console.log("Student not assigned to any bus yet or error fetching assignment:", error);
+                    });
+            }
+        }
+
+        // Restore bus selection state from localStorage
+        const savedBusStop = localStorage.getItem("selectedBusStop");
+        const savedBusStopConfirmed = localStorage.getItem("isBusStopConfirmed");
+        const savedBusName = localStorage.getItem("selectedBusName");
+        const savedDirection = localStorage.getItem("selectedDirection");
+
+        if (savedBusStop) {
+            setSelectedBusStop(savedBusStop);
+        }
+        if (savedBusStopConfirmed === "true") {
+            setIsBusStopConfirmed(true);
+        }
+        if (savedBusName) {
+            setSelectedBusName(savedBusName);
+        }
+        if (savedDirection) {
+            setSelectedDirection(savedDirection);
         }
 
         // Fetch bus stops and active buses
@@ -54,13 +92,58 @@ function BusSchedulePage() {
     }, []);
 
     const handleBusStopChange = (event) => {
-        setSelectedBusStop(event.target.value);
+        const newBusStop = event.target.value;
+        setSelectedBusStop(newBusStop);
         setIsBusStopConfirmed(false); // Reset confirmation when selection changes
-        setSelectedBusName(""); // Reset bus selection when bus stop changes
+        if (!isStudentAssigned) {
+            setSelectedBusName(""); // Reset bus selection when bus stop changes (only if not already assigned)
+        }
+        
+        // Save to localStorage
+        if (newBusStop) {
+            localStorage.setItem("selectedBusStop", newBusStop);
+        } else {
+            localStorage.removeItem("selectedBusStop");
+        }
+        localStorage.removeItem("isBusStopConfirmed");
+        if (!isStudentAssigned) {
+            localStorage.removeItem("selectedBusName");
+        }
     };
 
     const handleBusChange = (event) => {
-        setSelectedBusName(event.target.value);
+        if (isStudentAssigned) {
+            alert(`You are already assigned to bus '${assignedBusName}'. Contact admin to change assignment.`);
+            return;
+        }
+        
+        const newBusName = event.target.value;
+        setSelectedBusName(newBusName);
+        
+        // Save to localStorage
+        if (newBusName) {
+            localStorage.setItem("selectedBusName", newBusName);
+        } else {
+            localStorage.removeItem("selectedBusName");
+        }
+    };
+
+    const handleDirectionChange = (event) => {
+        const newDirection = event.target.value;
+        setSelectedDirection(newDirection);
+        if (!isStudentAssigned) {
+            setSelectedBusName(""); // Reset selected bus when direction changes (only if not already assigned)
+        }
+        
+        // Save to localStorage
+        if (newDirection) {
+            localStorage.setItem("selectedDirection", newDirection);
+        } else {
+            localStorage.removeItem("selectedDirection");
+        }
+        if (!isStudentAssigned) {
+            localStorage.removeItem("selectedBusName");
+        }
     };
 
     const handleConfirmBusStop = () => {
@@ -69,7 +152,13 @@ function BusSchedulePage() {
             return;
         }
         setIsBusStopConfirmed(true); // Confirm the selection
+        localStorage.setItem("isBusStopConfirmed", "true"); // Save confirmation state
         alert(`Bus stop '${selectedBusStop}' confirmed. You can now select a bus.`);
+        
+        // Refresh the page after confirmation
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000); // Small delay to let user see the alert
     };
 
     const handleAssignBusStopToStudent = () => {
@@ -98,6 +187,11 @@ function BusSchedulePage() {
     };
 
     const handleAssignBusToStudent = async () => {
+        if (isStudentAssigned) {
+            alert(`You are already assigned to bus '${assignedBusName}'. Contact admin to change assignment.`);
+            return;
+        }
+        
         if (!studentData || !selectedBusName) {
             alert("Please select a bus!");
             return;
@@ -113,6 +207,8 @@ function BusSchedulePage() {
                 { params: { busName: selectedBusName } }
             );
             setMessage(response.data);
+            setIsStudentAssigned(true);
+            setAssignedBusName(selectedBusName);
             alert(`Bus '${selectedBusName}' assigned to '${studentData.name}'.`);
         } catch (error) {
             setMessage(error.response?.data || "Error assigning bus");
@@ -128,6 +224,25 @@ function BusSchedulePage() {
         navigate('/bus-seat-booking');
     };
 
+    // Function to clear all selections (optional - you can add a "Reset" button)
+    const clearSelections = () => {
+        if (isStudentAssigned) {
+            alert("You cannot reset selections while assigned to a bus. Contact admin to change assignment.");
+            return;
+        }
+        
+        setSelectedBusStop("");
+        setIsBusStopConfirmed(false);
+        setSelectedBusName("");
+        setSelectedDirection("");
+        
+        // Clear from localStorage
+        localStorage.removeItem("selectedBusStop");
+        localStorage.removeItem("isBusStopConfirmed");
+        localStorage.removeItem("selectedBusName");
+        localStorage.removeItem("selectedDirection");
+    };
+
     return (
         <div style={styles.container}>
             <div style={styles.header}>
@@ -140,6 +255,22 @@ function BusSchedulePage() {
                             <p><strong>Name:</strong> {studentData.name}</p>
                             <p><strong>ID:</strong> {studentData.studentId}</p>
                         </div>
+                        
+                        {/* Show current assignment if student is assigned */}
+                        {isStudentAssigned && (
+                            <div style={{
+                                ...styles.studentCard,
+                                backgroundColor: '#f0f9ff',
+                                border: '2px solid #0ea5e9',
+                                marginTop: '10px'
+                            }}>
+                                <h4 style={{color: '#0ea5e9', margin: '0 0 10px 0'}}>🚌 Current Assignment</h4>
+                                <p><strong>Assigned Bus:</strong> {assignedBusName}</p>
+                                <p style={{fontSize: '12px', color: '#64748b', margin: '5px 0 0 0'}}>
+                                    Contact administration to change your bus assignment
+                                </p>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
@@ -148,17 +279,19 @@ function BusSchedulePage() {
     <select
         id="bus-direction"
         value={selectedDirection}
-        onChange={(e) => {
-            setSelectedDirection(e.target.value);
-            setSelectedBusName(""); // Reset selected bus
-        }}
+        onChange={handleDirectionChange}
         style={styles.dropdown}
-        
+        disabled={isStudentAssigned}
     >
         <option value="">-- Select Direction --</option>
         <option value="TO_CUET">To CUET</option>
         <option value="FROM_CUET">From CUET</option>
     </select>
+    {isStudentAssigned && (
+        <p style={{fontSize: '12px', color: '#64748b', marginTop: '5px'}}>
+            Direction selection disabled - you are already assigned to a bus
+        </p>
+    )}
 </div>
  
             <div style={styles.selectionContainer}>
@@ -229,6 +362,7 @@ function BusSchedulePage() {
                         <span style={styles.stepNumber}>2</span>
                         <h3 style={styles.stepTitle}>Select Your Bus</h3>
                         {!isBusStopConfirmed && <span style={styles.disabledText}>(Complete Step 1 first)</span>}
+                        {isStudentAssigned && <span style={styles.disabledText}>(Already Assigned)</span>}
                     </div>
                     
                     <div style={styles.inputGroup}>
@@ -237,8 +371,12 @@ function BusSchedulePage() {
     id="active-buses"
     value={selectedBusName}
     onChange={handleBusChange}
-    style={styles.dropdown}
-    disabled={!isBusStopConfirmed || !selectedDirection}
+    style={{
+        ...styles.dropdown,
+        backgroundColor: isStudentAssigned ? '#f3f4f6' : styles.dropdown.backgroundColor,
+        cursor: isStudentAssigned ? 'not-allowed' : 'pointer'
+    }}
+    disabled={!isBusStopConfirmed || !selectedDirection || isStudentAssigned}
 >
     <option value="">-- Select Bus --</option>
     {buses
@@ -254,26 +392,65 @@ function BusSchedulePage() {
 
                     <div style={styles.buttonGroup}>
                         <button
-                            style={isBusStopConfirmed && selectedBusName ? styles.assignButton : styles.disabledButton}
+                            style={
+                                isStudentAssigned 
+                                    ? styles.disabledButton 
+                                    : (isBusStopConfirmed && selectedBusName ? styles.assignButton : styles.disabledButton)
+                            }
                             onClick={handleAssignBusToStudent}
-                            disabled={!isBusStopConfirmed || !selectedBusName}
+                            disabled={isStudentAssigned || !isBusStopConfirmed || !selectedBusName}
                             onMouseEnter={(e) => {
-                                if (!isBusStopConfirmed || !selectedBusName) return;
+                                if (isStudentAssigned || !isBusStopConfirmed || !selectedBusName) return;
                                 e.target.style.transform = "translateY(-2px)";
                                 e.target.style.boxShadow = "0 6px 16px rgba(0, 85, 164, 0.4)";
                             }}
                             onMouseLeave={(e) => {
-                                if (!isBusStopConfirmed || !selectedBusName) return;
+                                if (isStudentAssigned || !isBusStopConfirmed || !selectedBusName) return;
                                 e.target.style.transform = "translateY(0)";
                                 e.target.style.boxShadow = "0 4px 12px rgba(0, 85, 164, 0.3)";
                             }}
                         >
-                            Assign Bus to Student
+                            {isStudentAssigned ? `✓ Already Assigned to ${assignedBusName}` : "Assign Bus to Student"}
                         </button>
                         
                         
                     </div>
                 </div>
+            </div>
+
+            {/* Optional: Add a reset button */}
+            <div style={{textAlign: 'center', margin: '20px 0'}}>
+                <button 
+                    onClick={clearSelections}
+                    style={{
+                        backgroundColor: isStudentAssigned ? '#9ca3af' : '#f87171',
+                        color: 'white',
+                        border: 'none',
+                        padding: '10px 20px',
+                        borderRadius: '8px',
+                        cursor: isStudentAssigned ? 'not-allowed' : 'pointer',
+                        fontSize: '14px',
+                        transition: 'all 0.3s ease'
+                    }}
+                    disabled={isStudentAssigned}
+                    onMouseEnter={(e) => {
+                        if (isStudentAssigned) return;
+                        e.target.style.backgroundColor = '#ef4444';
+                        e.target.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                        if (isStudentAssigned) return;
+                        e.target.style.backgroundColor = '#f87171';
+                        e.target.style.transform = 'translateY(0)';
+                    }}
+                >
+                    🔄 Reset All Selections
+                </button>
+                {isStudentAssigned && (
+                    <p style={{fontSize: '12px', color: '#64748b', marginTop: '5px'}}>
+                        Reset disabled - contact admin to change assignment
+                    </p>
+                )}
             </div>
 
             {/* Bus Information Cards */}
@@ -288,16 +465,17 @@ function BusSchedulePage() {
                                 backgroundColor: bus.femaleOnly ? "#fce7f3" : "var(--bg-frost)",
                                 border: selectedBusName === bus.name ? "3px solid var(--primary-color)" : "1px solid #e5e7eb",
                                 transform: selectedBusName === bus.name ? "scale(1.02)" : "scale(1)",
-                                animationDelay: `${0.6 + (index * 0.1)}s`
+                                animationDelay: `${0.6 + (index * 0.1)}s`,
+                                opacity: isStudentAssigned && assignedBusName !== bus.name ? 0.6 : 1
                             }}
                             onMouseEnter={(e) => {
-                                if (selectedBusName !== bus.name) {
+                                if (selectedBusName !== bus.name && (!isStudentAssigned || assignedBusName === bus.name)) {
                                     e.target.style.transform = "translateY(-4px) scale(1.01)";
                                     e.target.style.boxShadow = "0 8px 25px rgba(0,0,0,0.15)";
                                 }
                             }}
                             onMouseLeave={(e) => {
-                                if (selectedBusName !== bus.name) {
+                                if (selectedBusName !== bus.name && (!isStudentAssigned || assignedBusName === bus.name)) {
                                     e.target.style.transform = "translateY(0) scale(1)";
                                     e.target.style.boxShadow = "0 4px 12px rgba(0,0,0,0.1)";
                                 }
@@ -306,6 +484,13 @@ function BusSchedulePage() {
                             <div style={styles.busCardHeader}>
                                 <h3 style={styles.busName}>{bus.name}</h3>
                                 {bus.femaleOnly && <span style={styles.femaleOnlyBadge}>♀ Female Only</span>}
+                                {isStudentAssigned && assignedBusName === bus.name && (
+                                    <span style={{
+                                        ...styles.femaleOnlyBadge,
+                                        backgroundColor: '#22c55e',
+                                        color: 'white'
+                                    }}>✓ Your Bus</span>
+                                )}
                             </div>
                             
                             <div style={styles.busStats}>
@@ -327,13 +512,13 @@ function BusSchedulePage() {
                                 <span style={styles.locationLabel}>📍 Current Location:</span>
                                 <span style={styles.locationValue}>{busStopages[bus.name] || "Loading..."}</span>
                             </div>
-                            {/* 🆕 Direction display */}
-    <div style={styles.statItem}>
-        <span style={styles.statLabel}>Direction:</span>
-        <span style={styles.statValue}>
-            {bus.direction === "TO_CUET" ? "➡ To CUET" : "⬅ From CUET"}
-        </span>
-    </div>
+                            {/* Direction display */}
+                            <div style={styles.statItem}>
+                                <span style={styles.statLabel}>Direction:</span>
+                                <span style={styles.statValue}>
+                                    {bus.direction === "TO_CUET" ? "➡ To CUET" : "⬅ From CUET"}
+                                </span>
+                            </div>
                         </div>
                     ))}
                 </div>
