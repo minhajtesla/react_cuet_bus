@@ -1,0 +1,374 @@
+/* BusSchedule.css */
+
+.bus-schedule-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  min-height: 100vh;
+}
+
+.schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+}
+
+.schedule-header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.print-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.print-btn:hover {
+  background: white;
+  color: #007bff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.day-schedule {
+  background: white;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid #e9ecef;
+}
+
+.day-header {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.day-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.vehicle-schedule {
+  padding: 2rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.vehicle-schedule:last-child {
+  border-bottom: none;
+}
+
+.vehicle-type {
+  color: #007bff;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+}
+
+.schedule-table-container {
+  margin-bottom: 2rem;
+}
+
+.schedule-table-container h4 {
+  color: #495057;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #28a745;
+}
+
+.schedule-table {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #dee2e6;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+  color: white;
+}
+
+.header-cell {
+  padding: 1rem;
+  font-weight: bold;
+  text-align: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.header-cell:last-child {
+  border-right: none;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  background: white;
+  border-bottom: 1px solid #dee2e6;
+  transition: background-color 0.3s ease;
+}
+
+.table-row:hover {
+  background: #f8f9fa;
+}
+
+.table-row:nth-child(even) {
+  background: #f8f9fa;
+}
+
+.table-row:nth-child(even):hover {
+  background: #e9ecef;
+}
+
+.cell {
+  padding: 1rem;
+  border-right: 1px solid #dee2e6;
+}
+
+.cell:last-child {
+  border-right: none;
+}
+
+.stop-name {
+  font-weight: 500;
+  color: #495057;
+}
+
+.time {
+  text-align: center;
+  font-weight: bold;
+  color: #007bff;
+  font-size: 1.1rem;
+}
+
+.return-info {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+  border-radius: 8px;
+  border-left: 4px solid #ffc107;
+}
+
+.return-info h4 {
+  color: #856404;
+  margin-bottom: 0.5rem;
+}
+
+.return-info p {
+  margin: 0;
+  color: #664d03;
+  font-weight: 500;
+}
+
+.contact-info {
+  margin-bottom: 1.5rem;
+}
+
+.contact-info h4 {
+  color: #495057;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.contacts-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.contact-item {
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  color: #155724;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 500;
+  border: 1px solid #b8daff;
+  display: inline-block;
+}
+
+.schedule-note {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #cce5ff 0%, #b3d9ff 100%);
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+}
+
+.schedule-note p {
+  margin: 0;
+  color: #004085;
+  font-style: italic;
+}
+
+.emergency-contact {
+  background: linear-gradient(135deg, #f8d7da 0%, #f1aeb5 100%);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border: 1px solid #f5c6cb;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+}
+
+.emergency-contact h3 {
+  color: #721c24;
+  margin-bottom: 0.5rem;
+  font-size: 1.4rem;
+}
+
+.emergency-contact p {
+  margin: 0;
+  color: #721c24;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.additional-info {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+}
+
+.additional-info h3 {
+  color: #495057;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.5rem;
+}
+
+.additional-info ul {
+  list-style: none;
+  padding: 0;
+}
+
+.additional-info li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e9ecef;
+  position: relative;
+  padding-left: 2rem;
+}
+
+.additional-info li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #28a745;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.additional-info li:last-child {
+  border-bottom: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .bus-schedule-container {
+    padding: 1rem;
+  }
+
+  .schedule-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .schedule-header h1 {
+    font-size: 2rem;
+  }
+
+  .vehicle-schedule {
+    padding: 1rem;
+  }
+
+  .contacts-list {
+    flex-direction: column;
+  }
+
+  .contact-item {
+    text-align: center;
+  }
+
+  .table-row,
+  .table-header {
+    grid-template-columns: 1.5fr 1fr;
+  }
+
+  .cell {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .bus-schedule-container {
+    background: white;
+    padding: 1rem;
+    box-shadow: none;
+  }
+
+  .print-btn {
+    display: none;
+  }
+
+  .schedule-header {
+    background: #007bff !important;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  .day-header {
+    background: #28a745 !important;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  .day-schedule,
+  .additional-info {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .vehicle-schedule {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

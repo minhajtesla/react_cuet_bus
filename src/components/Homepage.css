@@ -2,16 +2,23 @@
 
 /* 1. Theme Variables (if not already in global) */
 :root {
-  --bg-dark:         #0f172a;    /* page background */
-  --bg-secondary:    #1e293b;    /* containers */
-  --bg-accent:       #334155;    /* cards/panels */
-  --text-light:      #f1f5f9;    /* primary text */
-  --text-muted:      #cbd5e1;    /* secondary text */
-  --accent-blue:     #38bdf8;    /* buttons, highlights */
-  --accent-amber:    #fbbf24;    /* hover states */
-  --border-radius:   6px;
-  --transition:      0.3s ease;
-  --container-gap:   2rem;
+  --bg-dark: #0f172a;
+  /* page background */
+  --bg-secondary: #1e293b;
+  /* containers */
+  --bg-accent: #334155;
+  /* cards/panels */
+  --text-light: #f1f5f9;
+  /* primary text */
+  --text-muted: #cbd5e1;
+  /* secondary text */
+  --accent-blue: #38bdf8;
+  /* buttons, highlights */
+  --accent-amber: #fbbf24;
+  /* hover states */
+  --border-radius: 6px;
+  --transition: 0.3s ease;
+  --container-gap: 2rem;
 }
 
 /* 2. Global Reset / Typography */
@@ -22,6 +29,7 @@
   margin: 0;
   padding: 0;
 }
+
 body {
   background: var(--bg-dark);
   color: var(--text-light);
@@ -39,27 +47,33 @@ body {
   justify-content: center;
   text-align: center;
 }
+
 .hero::before {
   content: '';
-  position: absolute; inset: 0;
-  background: rgba(0,0,0,0.6);
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
 }
+
 .hero-content {
   position: relative;
   z-index: 1;
   max-width: 800px;
   padding: 0 var(--container-gap);
 }
+
 .hero-content h1 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
   color: var(--accent-blue);
 }
+
 .hero-content p {
   font-size: 1.125rem;
   margin-bottom: 2rem;
   color: var(--text-muted);
 }
+
 .hero-content .button {
   background: var(--accent-blue);
   color: var(--bg-dark);
@@ -68,6 +82,7 @@ body {
   font-weight: bold;
   transition: background var(--transition), transform var(--transition);
 }
+
 .hero-content .button:hover {
   background: var(--accent-amber);
   transform: translateY(-3px);
@@ -79,17 +94,20 @@ body {
   padding: var(--container-gap);
   margin: var(--container-gap) 0;
   border-radius: var(--border-radius);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
+
 .map-search-section {
   max-width: 900px;
   margin: 0 auto;
   text-align: center;
 }
+
 .map-search-section h2 {
   color: var(--accent-blue);
   margin-bottom: 1rem;
 }
+
 .station-dropdown {
   width: 100%;
   max-width: 360px;
@@ -101,10 +119,12 @@ body {
   color: var(--text-light);
   transition: background var(--transition);
 }
+
 .station-dropdown:hover,
 .station-dropdown:focus {
   background: var(--bg-secondary);
 }
+
 .map-container {
   width: 100%;
   height: 360px;
@@ -112,44 +132,51 @@ body {
   overflow: hidden;
   margin-bottom: 1.5rem;
 }
+
 .station-info {
   color: var(--text-light);
 }
+
 .station-info h3 {
   font-size: 1.5rem;
   margin-bottom: 0.75rem;
 }
+
 .station-info img.station-image {
   width: 100%;
   max-width: 480px;
   border-radius: var(--border-radius);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 /* 5. Feature Grid */
 .features {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--container-gap);
   padding: var(--container-gap) 0;
   max-width: 1200px;
   margin: 0 auto;
 }
+
 .features .card {
   background: var(--bg-accent);
   padding: 1.5rem;
   border-radius: var(--border-radius);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   transition: transform var(--transition), box-shadow var(--transition);
 }
+
 .features .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
 }
+
 .features .card h3 {
   margin-bottom: 0.5rem;
   color: var(--accent-blue);
 }
+
 .features .card p {
   color: var(--text-muted);
 }
@@ -158,26 +185,29 @@ body {
 .info {
   background: var(--bg-secondary);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: var(--container-gap);
   padding: var(--container-gap);
   border-radius: var(--border-radius);
   max-width: 1200px;
   margin: var(--container-gap) auto;
 }
+
 .info .about,
 .info .contact {
   padding: 1.5rem;
   background: var(--bg-accent);
   border-radius: var(--border-radius);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   transition: transform var(--transition), box-shadow var(--transition);
 }
+
 .info .about:hover,
 .info .contact:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.6);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
 }
+
 .info h2 {
   color: var(--accent-blue);
   margin-bottom: 1rem;
@@ -185,9 +215,17 @@ body {
 
 /* 7. Fade-In Animation */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 .fade-in {
   opacity: 0;
   animation: fadeIn 0.8s var(--transition) forwards;
@@ -195,18 +233,27 @@ body {
 
 /* 8. Responsive Tweaks */
 @media (max-width: 768px) {
-  .hero-content h1 { font-size: 2rem; }
-  .hero-content p  { font-size: 1rem; }
-  .map-container   { height: 300px; }
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .map-container {
+    height: 300px;
+  }
 }
 
 /*  Login / Identity Panel Styles */
-.login-toggle{
+.login-toggle {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 1rem;
 }
+
 .identity-panel-overlay {
   position: fixed;
   top: 0;
@@ -272,8 +319,183 @@ body {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+/* Add this to your Homepage.css file */
+
+/* Highlight animation for feedback section */
+.highlight-animation {
+  animation: highlightPulse 2s ease-in-out;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+}
+
+@keyframes highlightPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(0, 123, 255, 0.4);
+  }
+
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(0, 123, 255, 0.6);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(0, 123, 255, 0.4);
+  }
+}
+
+/* Smooth scroll behavior for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Optional: Add hover effect to clickable feedback card */
+.features .card:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Add this to your Homepage.css file */
+
+/* Smooth scroll behavior for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Highlight animation for feedback section */
+#feedback-section.highlight-animation {
+  animation: highlightPulse 2s ease-in-out;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+@keyframes highlightPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(0, 123, 255, 0.4);
+  }
+
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(0, 123, 255, 0.6);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(0, 123, 255, 0.4);
+  }
+}
+
+/* Add some padding to account for fixed navbar if you have one */
+#feedback-section {
+  scroll-margin-top: 80px;
+  /* Adjust this value based on your navbar height */
+}
+
+/* Optional: Add hover effect to navbar links */
+.navbar-links a:hover {
+  color: #007bff;
+  transition: color 0.3s ease;
+}
+
+/* Add this to your Homepage.css file */
+
+/* Smooth scroll behavior for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Highlight animation for sections */
+#feedback-section.highlight-animation,
+#contact-section.highlight-animation {
+  animation: highlightPulse 2s ease-in-out;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+@keyframes highlightPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(0, 123, 255, 0.4);
+  }
+
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(0, 123, 255, 0.6);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(0, 123, 255, 0.4);
+  }
+}
+
+/* Add some padding to account for fixed navbar if you have one */
+#feedback-section,
+#contact-section {
+  scroll-margin-top: 80px;
+  /* Adjust this value based on your navbar height */
+}
+
+/* Optional: Add hover effect to navbar links */
+.navbar-links a:hover {
+  color: #007bff;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+/* Center the contact section and improve layout */
+#contact-section {
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 2rem;
+}
+
+#contact-section .about,
+#contact-section .contact {
+  flex: 1;
+  max-width: 500px;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 0;
+}
+
+#contact-section .about {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+}
+
+#contact-section .contact {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  #contact-section {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  #contact-section .about,
+  #contact-section .contact {
+    max-width: none;
   }
 }

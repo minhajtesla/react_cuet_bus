@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 import './Homepage.css';
@@ -33,12 +33,33 @@ export default function Homepage() {
   const [showLoginPanel, setShowLoginPanel] = useState(false);
   const navigate = useNavigate();
   
+  // Create a ref for the feedback section
+  const feedbackRef = useRef(null);
+
+  // Function to scroll to feedback section with smooth animation
+  const scrollToFeedback = () => {
+    if (feedbackRef.current) {
+      feedbackRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest'
+      });
+      
+      // Optional: Add a highlight effect
+      feedbackRef.current.classList.add('highlight-animation');
+      setTimeout(() => {
+        feedbackRef.current.classList.remove('highlight-animation');
+      }, 2000);
+    }
+  };
+  
   if (loadError) return <div className="map-loading">Error loading map</div>;
   if (!isLoaded) return <div className="map-loading">Loading map...</div>;
 
   const features = [
     { title: 'Our Mission', desc: 'Learn about our vision and roadmap.', link: '/mission' },
     { title: 'Bus Fleet', desc: 'Explore our latest models and specs.', link: '/buses' },
+    { title: 'Bus Schedule', desc: 'View detailed bus timings and routes.', link: '/bus-schedule' },
     { title: 'Notices', desc: 'Stay updated with the latest announcements.', link: '/notice' },
   ];
 
@@ -154,12 +175,12 @@ export default function Homepage() {
       </section>
 
       {/* Feedback Section */}
-      <section className="feedback-section container fade-in">
+      <section id="feedback-section" ref={feedbackRef} className="feedback-section container fade-in">
         <Feedback />
       </section>
 
       {/* About & Contact */}
-      <section className="info container fade-in">
+      <section id="contact-section" className="info container fade-in">
         <div className="about">
           <h2>About CUET</h2>
           <p>
