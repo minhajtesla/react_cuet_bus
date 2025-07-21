@@ -64,7 +64,7 @@ function StudentProfilePage() {
                     </p>
                 </div>
                 <div className="profile-actions">
-                    <Link to="/bus-schedule" className="button seat-booking-button">
+                    <Link to="/bus-schedule-seat" className="button seat-booking-button">
                         Go to Seat Booking
                     </Link>
                     <Link to="/" className="button back-home-button">
