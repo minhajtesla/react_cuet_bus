@@ -9,9 +9,10 @@ import BusStopages from './components/BusStopages';
 import BusSchedule from './components/BusSchedule';
 import DriverProfilePage from './components/DriverProfilePage';
 import AdminProfilePage from './components/AdminProfilePage';
-
 import AssignDriverToBus from './components/AssignDriverToBus';
 import BusSchedulePage from './components/BusSchedulePage';
+import BusSeatBookingPage from './components/BusSeatBookingPage';
+import BusSeatConfirmationPage from './components/BusSeatConfirmationPage';
 function App() {
   return (
     <div className="App">
@@ -26,10 +27,12 @@ function App() {
           <Route path="/driver-profile" element={<DriverProfilePage />} />
           <Route path="/bus-stopages" element={<BusStopages />} />
           <Route path="/bus-schedule" element={<BusSchedule />} />
-          <Route path='/admin-profile' element={<AdminProfilePage />} />
           <Route path="/admin-profile" element={<AdminProfilePage />} />
-      <Route path="/assign-driver" element={<AssignDriverToBus />} />
-      <Route path="/bus-schedule-seat" element={<BusSchedulePage />} />
+          <Route path="/admin-profile" element={<AdminProfilePage />} />
+          <Route path="/assign-driver" element={<AssignDriverToBus />} />
+          <Route path="/bus-schedule-seat" element={<BusSchedulePage />} />
+          <Route path="/bus-seat-booking" element={<BusSeatBookingPage />} />
+          <Route path="/bus-seat-confirmation" element={<BusSeatConfirmationPage />} />
           {/* Add other routes here */}
         </Routes>
       </Router>

@@ -357,13 +357,14 @@ function BusSchedulePage() {
                 </div>
 
                 {/* Step 2: Select Bus (Only available after bus stop is confirmed) */}
-                <div style={{...styles.stepCard, opacity: isBusStopConfirmed ? 1 : 0.5}}>
+                <div style={{...styles.stepCard, opacity: isBusStopConfirmed ? 1 : 0.5, borderColor: "red"}}>
                     <div style={styles.stepHeader}>
                         <span style={styles.stepNumber}>2</span>
                         <h3 style={styles.stepTitle}>Select Your Bus</h3>
                         {!isBusStopConfirmed && <span style={styles.disabledText}>(Complete Step 1 first)</span>}
                         {isStudentAssigned && <span style={styles.disabledText}>(Already Assigned)</span>}
                     </div>
+
                     
                     <div style={styles.inputGroup}>
                         <label htmlFor="active-buses" style={styles.label}>Choose Bus:</label>
@@ -420,8 +421,9 @@ function BusSchedulePage() {
 
             {/* Optional: Add a reset button */}
             <div style={{textAlign: 'center', margin: '20px 0'}}>
+                
                 <button 
-                    onClick={clearSelections}
+                    onClick={() => window.location.href = '/bus-seat-booking'}
                     style={{
                         backgroundColor: isStudentAssigned ? '#9ca3af' : '#f87171',
                         color: 'white',
@@ -432,7 +434,6 @@ function BusSchedulePage() {
                         fontSize: '14px',
                         transition: 'all 0.3s ease'
                     }}
-                    disabled={isStudentAssigned}
                     onMouseEnter={(e) => {
                         if (isStudentAssigned) return;
                         e.target.style.backgroundColor = '#ef4444';
@@ -444,7 +445,7 @@ function BusSchedulePage() {
                         e.target.style.transform = 'translateY(0)';
                     }}
                 >
-                    🔄 Reset All Selections
+                    Go to Bus Seat Booking
                 </button>
                 {isStudentAssigned && (
                     <p style={{fontSize: '12px', color: '#64748b', marginTop: '5px'}}>

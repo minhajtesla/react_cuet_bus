@@ -58,7 +58,7 @@ export default function Homepage() {
 
   const features = [
     { title: 'Our Mission', desc: 'Learn about our vision and roadmap.', link: '/mission' },
-    { title: 'Bus Fleet', desc: 'Explore our latest models and specs.', link: '/buses' },
+    // { title: 'Bus Fleet', desc: 'Explore our latest models and specs.', link: '/buses' },
     { title: 'Bus Schedule', desc: 'View detailed bus timings and routes.', link: '/bus-schedule' },
     { title: 'Notices', desc: 'Stay updated with the latest announcements.', link: '/notice' },
   ];
